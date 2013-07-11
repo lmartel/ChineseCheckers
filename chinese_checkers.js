@@ -16,7 +16,7 @@ var cc = {
         [-5,1],[-4,-1],[-4,-2],[-4,-3],[-4,-4],[-3,-4],[-2,-4],[-1,-4]
     ],
 
-    BACKGROUND: "wood.png",
+    BACKGROUND: "img/wood.png",
     SELECT_COLOR: "green",
     ERROR_COLOR: "red"
 };
@@ -173,7 +173,7 @@ cc.Game = function(nPlayers, svgClass, announceClass){
         // Remove the old listener, add the next
         function listenFor(click){
             if(!gameOver){
-                if(click === firstClick) announce(game.players[active].name + " player's turn!");
+                if(click === firstClick) announce(game.players[active].toString() + " player's turn!");
                 d3.select("." + board.getDOMClass()).on("click", click);
             }
         }
@@ -192,7 +192,7 @@ cc.Game = function(nPlayers, svgClass, announceClass){
             // Victory!
             listenFor(null);
             gameOver = true;
-            announce(player.name + " player won!");
+            announce(player.toString() + " player won!");
         }
 
         function announce(text){
@@ -237,35 +237,41 @@ cc.Player = {};
      * Note: south corner is a 180 rotation around the origin from the north corner.
      * Thus, for north hex (q, r) the corresponding south hex is (-q, -r)
      */
-    cc.Player.NORTHWEST = {value: 5, name: "Northwest", marble: "blue.png",
+    cc.Player.NORTHWEST = {value: 5, name: "blue", position: "Northwest", marble: "img/blue.png",
         corner: [[-4,-4],[-4,-3],[-3,-4],[-4,-2],[-3,-3],[-2,-4],[-4,-1],[-3,-2],[-2,-3],[-1,-4]]
     };
 
-    cc.Player.NORTH = {value: 0, name: "North", marble: "pearl.png",
+    cc.Player.NORTH = {value: 0, name: "gold", position: "North", marble: "img/pearl.png",
         corner: [[4,-8],[3,-7],[4,-7],[2,-6],[3,-6],[4,-6],[1,-5],[2,-5],[3,-5],[4,-5]]
     };
 
-    cc.Player.NORTHEAST = {value: 1, name: "Northeast", marble: "red.png",
+    cc.Player.NORTHEAST = {value: 1, name: "red", position: "Northeast", marble: "img/red.png",
         corner: [[8,-4],[7,-4],[7,-3],[6,-4],[6,-3],[6,-2],[5,-4],[5,-3],[5,-2],[5,-1]]
     };
 
-    cc.Player.SOUTHEAST = {value: 2, name: "Southeast", marble: "gold.png",
+    cc.Player.SOUTHEAST = {value: 2, name: "yellow", position: "Southeast", marble: "img/gold.png",
         corner: rotate(cc.Player.NORTHWEST.corner)
     };
 
-    cc.Player.SOUTH = {value: 3, name: "South", marble: "silver.png",
+    cc.Player.SOUTH = {value: 3, name: "silver", position: "South", marble: "img/silver.png",
         corner: rotate(cc.Player.NORTH.corner)
     };
 
-    cc.Player.SOUTHWEST = {value: 4, name: "Southwest", marble: "green.png",
+    cc.Player.SOUTHWEST = {value: 4, name: "green", position: "Southwest", marble: "img/green.png",
         corner: rotate(cc.Player.NORTHEAST.corner)
     };
 
-    // Set up reverse mapping for Player lookup
+    var Player_toString = function(){
+        return this.position + "ern " + this.name;
+    };
+
+    // Inject toString method and set up reverse mapping for Player lookup
     for(var prop in cc.Player){
         if(!cc.Player.hasOwnProperty(prop)) continue;
+        cc.Player[prop].toString = Player_toString;
         cc.Player[cc.Player[prop].value] = cc.Player[prop];
         cc.Player[cc.Player[prop].name] = cc.Player[prop];
+        cc.Player[cc.Player[prop].position] = cc.Player[prop]
     }
 
     Object.freeze(cc.Player);
