@@ -78,7 +78,6 @@ cc.Game = function(nPlayers, svgClass, announceClass){
 };
 
 (function Game_init(){
-    //for(var i = 0; /* until win */; i = (i + 1) % this.players.length){
 
     function Game_start(){
         var game = this;
@@ -90,6 +89,8 @@ cc.Game = function(nPlayers, svgClass, announceClass){
         listenFor(firstClick);
 
         function firstClick(){
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
             var click = d3.mouse(this);
             var clicked = board.getAt(click[0], click[1]);
             if(clicked != null && clicked.getPayloadData() != null){
@@ -103,6 +104,8 @@ cc.Game = function(nPlayers, svgClass, announceClass){
         }
 
         function secondClick(){
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
             var click = d3.mouse(this);
             var clicked = board.getAt(click[0], click[1]);
             if(clicked != null && clicked.getPayloadData() != null){
@@ -174,7 +177,9 @@ cc.Game = function(nPlayers, svgClass, announceClass){
         function listenFor(click){
             if(!gameOver){
                 if(click === firstClick) announce(game.players[active].toString() + " player's turn!");
-                d3.select("." + board.getDOMClass()).on("click", click);
+                var select = d3.select("." + board.getDOMClass());
+                select.on("click", click);
+                select.on("touchstart", click);
             }
         }
 
