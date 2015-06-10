@@ -276,3 +276,11 @@ cc.Player = {};
 
     Object.freeze(cc.Player);
 })();
+
+function semicolonsAreOptionalRight(){
+    var x = 2 + 2
+    x -= 1
+    return x
+}
+
+console.log(semicolonsAreOptionalRight());
