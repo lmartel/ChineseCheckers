@@ -1,3 +1,6 @@
+var x = 5
+undefined_thing.other_thing
+
 var cc = {
     /* Created using my GUI Hex board tool at {@link} */
     BOARD: [
@@ -276,3 +279,11 @@ cc.Player = {};
 
     Object.freeze(cc.Player);
 })();
+
+function semicolonsAreOptionalRight(){
+    var x = 2 + 2
+    x -= 1
+    return x
+}
+
+console.log(semicolonsAreOptionalRight());
