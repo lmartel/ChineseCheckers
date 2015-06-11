@@ -1,3 +1,6 @@
+var x = 5
+undefined_thing.other_thing
+
 var cc = {
     /* Created using my GUI Hex board tool at {@link} */
     BOARD: [
